@@ -208,6 +208,69 @@
             z-index: 1;
         }
 
+         /* experience Section Background Image */
+        #experience {
+            position: relative;
+            overflow: hidden; /* To contain the pseudo-element */
+        }
+
+        #experience::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 600px; /* Height of the fade */
+            /* Using a placeholder for the ESSEC campus image */
+            background-image: url('Images/Mac-shutterstock_2400442993.avif');
+            background-size: cover;
+            background-position: center 30%; /* Adjust as needed */
+            opacity: 0.1; /* Subtle opacity */
+            z-index: 0; /* Behind content */
+            
+            /* The fading effect */
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+        }
+
+        /* Ensure all direct children of #education are on top */
+        #experience > div {
+            position: relative;
+            z-index: 1;
+        }
+
+
+          /* personal Section Background Image */
+        #personal {
+            position: relative;
+            overflow: hidden; /* To contain the pseudo-element */
+        }
+
+        #personal::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 600px; /* Height of the fade */
+            /* Using a placeholder for the ESSEC campus image */
+            background-image: url('Images/csm_first-track-bettmerhorn-aletsch-arena-benjamin-weissen-02.jpg-2454403_4d6edbb496.webp');
+            background-size: cover;
+            background-position: center 30%; /* Adjust as needed */
+            opacity: 0.1; /* Subtle opacity */
+            z-index: 0; /* Behind content */
+            
+            /* The fading effect */
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+        }
+
+        /* Ensure all direct children of #personal are on top */
+        #personal > div {
+            position: relative;
+            z-index: 1;
+        }
+
         
         /* ibea Section Background Image */
         #ibea {
@@ -1018,6 +1081,7 @@
 
 </body>
 </html>
+
 
 
 
