@@ -1021,10 +1021,24 @@
         } // End activateLocation function
 
         // --- DOMContentLoaded Event Listener ---
-        document.addEventListener('DOMContentLoaded', () => {
-             console.log("DOM fully loaded and parsed. Running initial setup...");
-            try { 
-                lucide.createIcons();
+    document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM fully loaded and parsed. Running initial setup...");
+
+    // Wait until lucide is defined
+    function initIconsWithRetry(attempts = 10) {
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+            console.log("Lucide icons initialized successfully.");
+            window.lucide.createIcons();
+        } else if (attempts > 0) {
+            console.warn("Lucide not ready, retrying...");
+            setTimeout(() => initIconsWithRetry(attempts - 1), 200);
+        } else {
+            console.error("Lucide failed to load after multiple attempts.");
+        }
+    }
+    initIconsWithRetry();
+
+    try {
                 
                 // --- Ticker Clone ---
                 const tickerMove = document.querySelector('.stock-ticker .ticker-move');
@@ -1113,6 +1127,7 @@
 
 </body>
 </html>
+
 
 
 
