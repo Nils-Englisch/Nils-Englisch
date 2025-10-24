@@ -1024,7 +1024,70 @@
         document.addEventListener('DOMContentLoaded', () => {
              console.log("DOM fully loaded and parsed. Running initial setup...");
             try { 
-                lucide.createIcons();
+                (function initLucideSafely(){
+  function tryCreate() {
+    const L = window.lucide || window.Lucide || null;
+    if (L && typeof L.createIcons === 'function') {
+      try {
+        L.createIcons();
+        console.log('[lucide] createIcons() executed successfully.');
+        return true;
+      } catch(err) {
+        console.error('[lucide] createIcons() threw:', err);
+        return false;
+      }
+    }
+    return false;
+  }
+
+  // 1) Try immediately
+  if (tryCreate()) return;
+
+  // 2) If there's a <script src="...lucide..."> tag, attach load handler
+  const lucideScript = Array.from(document.scripts).find(s => /lucide/i.test(s.src || ''));
+  if (lucideScript) {
+    // If script already loaded but global not present, try small timeout
+    if (lucideScript.readyState === 'complete' || lucideScript.readyState === 'loaded' || lucideScript.hasAttribute('data-loaded')) {
+      setTimeout(tryCreate, 50);
+    } else {
+      lucideScript.addEventListener('load', () => {
+        // small delay to let the script finalize any init
+        setTimeout(() => {
+          if (!tryCreate()) {
+            console.error('[lucide] loaded but createIcons() not found on window.lucide / window.Lucide', window.lucide, window.Lucide);
+          }
+        }, 50);
+      }, { once: true });
+      // also attach an error handler for script load failure
+      lucideScript.addEventListener('error', () => {
+        console.error('[lucide] script tag failed to load:', lucideScript.src);
+      }, { once: true });
+    }
+    return;
+  }
+
+  // 3) Fallback: try to dynamically import a UMD/ESM build (pinned version). If import fails, log clearly.
+  // Note: some browsers may block cross-origin dynamic imports; this is a best-effort fallback.
+  const lucideModuleUrl = 'https://cdn.jsdelivr.net/npm/lucide@0.473.0/dist/esm/lucide.esm.js';
+  import(lucideModuleUrl)
+    .then(mod => {
+      // module may export named functions or default
+      const exported = mod.default || mod;
+      if (exported && typeof exported.createIcons === 'function') {
+        exported.createIcons();
+        console.log('[lucide] createIcons() executed from dynamic import.');
+      } else if (exported && exported.Lucide && typeof exported.Lucide.createIcons === 'function') {
+        exported.Lucide.createIcons();
+        console.log('[lucide] createIcons() executed from exported Lucide.');
+      } else {
+        console.error('[lucide] dynamic import succeeded but createIcons not found on module exports.', exported);
+      }
+    })
+    .catch(err => {
+      console.error('[lucide] dynamic import failed (CORS/module not available?):', err);
+    });
+
+})();
                 
                 // --- Ticker Clone ---
                 const tickerMove = document.querySelector('.stock-ticker .ticker-move');
@@ -1113,6 +1176,7 @@
 
 </body>
 </html>
+
 
 
 
