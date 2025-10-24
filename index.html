@@ -208,6 +208,38 @@
             z-index: 1;
         }
 
+        
+        /* ibea Section Background Image */
+        #ibea {
+            position: relative;
+            overflow: hidden; /* To contain the pseudo-element */
+        }
+
+        #ibea::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 600px; /* Height of the fade */
+            /* Using a placeholder for the ESSEC campus image */
+            background-image: url('Images/building_exterior_825.jpg');
+            background-size: cover;
+            background-position: center 30%; /* Adjust as needed */
+            opacity: 0.1; /* Subtle opacity */
+            z-index: 0; /* Behind content */
+            
+            /* The fading effect */
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+        }
+
+        /* Ensure all direct children of #ibea are on top */
+        #ibea > div {
+            position: relative;
+            z-index: 1;
+        }
+
         /* Adjust gallery height slightly */
          #personal .gallery-image {
              height: 300px; /* Fixed height for gallery images */
@@ -594,6 +626,7 @@
                                 <p class="text-sm sm:text-lg font-medium text-accent">Focus: Emerging Markets & Public-Private Dynamics</p>
                                 <p class="mt-2 sm:mt-3 text-sm sm:text-base text-gray-300">
                                     As one of Latin America's leading institutions, FGV EBAPE provides a crucial immersion into emerging markets, exploring unique challenges in public administration, social impact, and high-growth environments. (Starts Aug 2026)
+                                    
                                 </p>
                             </div>
                         </div>
@@ -985,6 +1018,7 @@
 
 </body>
 </html>
+
 
 
 
