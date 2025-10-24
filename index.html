@@ -303,6 +303,38 @@
             z-index: 1;
         }
 
+        /* contact Section Background Image */
+        #contact {
+            position: relative;
+            overflow: hidden; /* To contain the pseudo-element */
+        }
+
+        #contact::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 600px; /* Height of the fade */
+            /* Using a placeholder for the ESSEC campus image */
+            background-image: url('Images/intercontinental-paris-7596881385-2x1.jpg');
+            background-size: cover;
+            background-position: center 30%; /* Adjust as needed */
+            opacity: 0.1; /* Subtle opacity */
+            z-index: 0; /* Behind content */
+            
+            /* The fading effect */
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+        }
+
+        /* Ensure all direct children of #ibea are on top */
+        #contact > div {
+            position: relative;
+            z-index: 1;
+        }
+
+
         /* Adjust gallery height slightly */
          #personal .gallery-image {
              height: 300px; /* Fixed height for gallery images */
@@ -1081,6 +1113,7 @@
 
 </body>
 </html>
+
 
 
 
